@@ -1,0 +1,122 @@
+type Query {
+  stock(symbol: ID!): Stock!
+  stocks(symbols: [ID!]!): [Stock!]!
+  searchStock(query: String!): [Stock!]!
+}
+
+scalar MyDate
+
+enum InstrumentType {
+  EQUITY
+  ETF
+  FOREX
+}
+
+type Stock {
+  chartData(timeRange: TimeRange!, interval: Interval!): [PricePoint!]!
+  companyProfile: CompanyProfile!
+  lots: [Lot!]!
+  market: Market!
+  name: String!
+  priceHistory: PriceHistory!
+  quote: Quote!
+  symbol: ID!
+  type: InstrumentType!
+}
+
+type Quote {
+  price: Float!
+  open: Float!
+  close: Float!
+  low: Float!
+  high: Float!
+  change: Float!
+  changePercent: Float!
+  volume: Int!
+  averageVolume: Int!
+  marketCap: Int!
+  peRatio: Float
+  dividend: Float!
+  dividendPercent: Float!
+}
+
+type PriceHistory {
+  fiftyTwoWeekLow: Float!
+  fiftyTwoWeekHigh: Float!
+  fiftyTwoWeekChange: Float!
+  fiftyTwoWeekChangePercent: Float!
+}
+
+type CompanyProfile {
+  address: String!
+  phoneNumber: String!
+  website: String!
+  sector: String!
+  industry: String!
+  fullTimeEmployees: Int!
+  description: String!
+}
+
+type Market {
+  exchangeName: ID!
+  region: String!
+  language: String!
+  timezone: String!
+  currency: String!
+  marketState: MarketState!
+  gmtOffset: Int!
+}
+
+enum MarketState {
+  PRE
+  REGULAR
+  POST
+  POSTPOST
+  PREPRE
+  CLOSED
+}
+
+enum TimeRange {
+  DAY
+  FIVE_DAYS
+  MONTH
+  THREE_MONTH
+  SIX_MONTH
+  YEAR
+  FIVE_YEARS
+  YTD
+  MAX
+}
+
+enum Interval {
+  FIVE_MINUTES
+  FIFTEEN_MINUTES
+  THIRTY_MINUTES
+  HOUR
+  DAY
+  WEEK
+  MONTH
+  THREE_MONTH
+}
+
+type PricePoint {
+  time: MyDate!
+  open: Float!
+  high: Float!
+  low: Float!
+  close: Float!
+  volume: Float!
+}
+
+type Watchlist {
+  id: ID!
+  name: String!
+  stocks: [Stock!]!
+}
+
+type Lot {
+  tradeDate: MyDate!
+  shares: Float!
+  costPerShare: Float!
+  note: String!
+}
