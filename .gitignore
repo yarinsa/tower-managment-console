@@ -6,4 +6,3 @@ build
 notes.txt
 frontend/src/@generated
 *.prettierrc
-Procfile
